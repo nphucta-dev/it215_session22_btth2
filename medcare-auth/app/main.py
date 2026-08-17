@@ -1,0 +1,14 @@
+from fastapi import FastAPI
+
+from app.database import Base, engine
+from app.exceptions.handlers import register_exception_handlers
+from app.routers.auth_router import router as auth_router
+from app.routers.prescription_router import router as prescription_router
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="MedCare Auth Service")
+
+register_exception_handlers(app)
+app.include_router(auth_router)
+app.include_router(prescription_router)
